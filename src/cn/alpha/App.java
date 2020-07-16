@@ -30,6 +30,8 @@ public class App extends Thread {
         frame.add(gamepanel);
         frame.setResizable(false);
         controller.newGame();
+        System.out.println("↑变换形状,←左移,→右移,↓加速下移,p暂停,c继续,n新游戏");
+
     }
 }
 

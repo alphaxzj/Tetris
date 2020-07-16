@@ -15,22 +15,28 @@ import java.awt.event.KeyEvent;
 /**
  * @author alpha
  */
-public class Controller extends KeyAdapter implements ShapeListener {
-
+public class Controller
+		extends KeyAdapter
+		implements ShapeListener
+{
 	private Shape shape;
 	private Ground ground;
-	private ShapeFactory shapefactory=new ShapeFactory();
+	private ShapeFactory shapefactory = new ShapeFactory();
 	private GamePanel gamepanel;
+
 	@Override
-	public void shapeMoveDown(Shape shape) {
-			gamepanel.display(shape,ground);
+	public void shapeMoveDown(Shape shape)
+	{
+		this.gamepanel.display(shape, this.ground);
 	}
+
 	@Override
-	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode())
+	public void keyPressed(KeyEvent e)
+	{
+		switch (e.getKeyCode())
 		{
 			case KeyEvent.VK_UP:
-				if(ground.isMoveable(shape, Shape.ROTATE)&& Global.GAME_STATUS==Global.ALIVE)shape.rotate();
+				if(ground.isMoveable(shape, Shape.ROTATE)&&Global.GAME_STATUS==Global.ALIVE)shape.rotate();
 				break;
 			case KeyEvent.VK_DOWN:
 				if(ground.isMoveable(shape, Shape.DOWN)&&Global.GAME_STATUS==Global.ALIVE)shape.moveDown();
@@ -61,55 +67,55 @@ public class Controller extends KeyAdapter implements ShapeListener {
 				setSpeedUp();
 				System.out.println("Speed="+Global.SPEED);
 				break;
-			default:
-				break;
 		}
-		gamepanel.display(shape,ground);
+		this.gamepanel.display(this.shape, this.ground);
 	}
+
 	public void newGame()
 	{
-		shape=shapefactory.getShape(this);
-		ground.init();
-		Global.GAME_STATUS=Global.ALIVE;
+		this.shape = this.shapefactory.getShape(this);
+		this.ground.init();
+		Global.GAME_STATUS = 1;
 	}
-	public Controller(Ground ground,ShapeFactory shapefactory,GamePanel gamepanel)
+
+	public Controller(Ground ground, ShapeFactory shapefactory, GamePanel gamepanel)
 	{
-		this.ground=ground;
-		this.shapefactory=shapefactory;
-		this.gamepanel=gamepanel;
+		this.ground = ground;
+		this.shapefactory = shapefactory;
+		this.gamepanel = gamepanel;
 	}
+
 	@Override
-	public synchronized boolean isMoveDownable(Shape shape) {
-		if(ground.isMoveable(this.shape, Shape.DOWN))
-		{
+	public synchronized boolean isMoveDownable(Shape shape)
+	{
+		if (this.ground.isMoveable(this.shape, 2)) {
 			return true;
 		}
-		else
-		{
-			this.ground.transform(shape);
-			ground.getScore();
-			this.shape=shapefactory.getShape(this);
-			gameover();
-			return false;
-		}
+		this.ground.transform(shape);
+		this.ground.getScore();
+		this.shape = this.shapefactory.getShape(this);
+		gameover();
+		return false;
 	}
+
 	public void gameover()
 	{
-		if(ground.isMoveable(this.shape, Shape.DOWN)==true&&ground.isFull()==true)
+		if ((this.ground.isMoveable(this.shape, 2)) && (this.ground.isFull()))
 		{
-			Global.GAME_STATUS=Global.OVER;
+			Global.GAME_STATUS = 3;
 			System.out.println("GAME OVER!");
 		}
 	}
+
 	public void setShiftDown()
 	{
-		Global.SPEED=Global.SPEED+100;
+		Global.SPEED += 100;
 	}
+
 	public void setSpeedUp()
 	{
-		if(Global.SPEED>100) {
-			Global.SPEED=Global.SPEED-100;
+		if (Global.SPEED > 100) {
+			Global.SPEED -= 100;
 		}
 	}
-	
 }

@@ -30,7 +30,6 @@ public class GamePanel extends JPanel{
 		this.ground=ground;
 		this.drawBufferImage();
 		this.repaint();
-		System.out.println("GamePanel's display");
 	}
 	public void drawBufferImage()
 	{
